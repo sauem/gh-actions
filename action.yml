@@ -1,0 +1,32 @@
+name: Build image
+description: "Build Docker image"
+
+inputs:
+  repository-name:
+    description: "The name of repository used to image tag"
+    required: false
+    default: ${{ github.event.repository.name }}
+  use-image-cache:
+    description: Flag to enable caching docker image
+    required: false
+    default: "true"
+  build-context:
+    description: The information of build context. Only git context and path context are acceptable.
+    required: false
+    default: "."
+  build-args:
+    description: List of build-time variables
+    required: false
+    default: ""
+
+outputs:
+  image-name:
+    description: "The Docker image name used to build"
+    value: local/${{ inputs.repository-name }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Show inputs args 
+      run: echo ${{ inputs.build-args }}
+      
